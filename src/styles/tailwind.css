@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  page {
+    /* 基础颜色-只用于派生变量 */
+    --primary-100: #0077c2;
+    --primary-200: #59a5f5;
+    --primary-300: #c8ffff;
+    --accent-100: #00bfff;
+    --accent-200: #00619a;
+    --text-100: #333333;
+    --text-200: #5c5c5c;
+    --bg-100: #ffffff;
+    --bg-200: #f5f5f5;
+    --bg-300: #cccccc;
+
+    /* 其他衍生变量 */
+    --color-base: var(--text-100); /* 基础颜色 */
+    --color-primary: var(--primary-100); /* 主要颜色 */
+    --color-accent: var(--accent-100); /* 强调颜色 */
+
+    --text-secondary: var(--text-200); /* 次要文本颜色 */
+    --text-primary: var(--primary-100); /* 主题色文本颜色 */
+    --text-accent: var(--accent-100); /* 强调文本颜色 */
+    --text-secondary-content: var(--text-200); /* 次色调对应的文本颜色 */
+    --text-accent-content: var(--text-100); /* 强调色调对应的文本颜色 */
+    --text-primary-content: var(--text-100); /* 主色调对应的文本颜色 */
+
+    --bg-base-100: var(--bg-100); /* 基础背景颜色（浅） */
+    --bg-base-200: var(--bg-200); /* 基础背景颜色（较浅） */
+    --bg-base-300: var(--bg-300); /* 基础背景颜色（较深） */
+    --bg-primary: var(--primary-100); /* 主要背景颜色 */
+    --bg-secondary: var(--primary-200); /* 次要背景颜色 */
+    --bg-accent: var(--accent-100); /* 强调背景颜色 */
+
+    --border-base: var(--bg-300); /* 基础边框颜色 */
+    --border-neutral: var(--text-200); /* 一般内容中性色，用于边框 */
+    --border-primary: var(--primary-100); /* 主要边框颜色 */
+    --border-secondary: var(--primary-200); /* 次要边框颜色 */
+    --border-accent: var(--accent-100); /* 强调边框颜色 */
+  }
+
+  [data-theme='light'] {
+  }
+}
