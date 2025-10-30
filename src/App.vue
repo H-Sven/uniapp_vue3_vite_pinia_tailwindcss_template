@@ -19,6 +19,7 @@ onHide(() => {
 </script>
 
 <style>
+@import "uview-plus/index.scss";
 @import url("styles/tailwind.css");
 
 /* 全局样式 */

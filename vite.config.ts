@@ -7,6 +7,12 @@ import uvtw from '@uni-helper/vite-plugin-uni-tailwind';
 export default defineConfig({
   css: {
     postcss: postcssConfig,
+    preprocessorOptions: {
+      scss: {
+        // 取消sass废弃API的报警
+        silenceDeprecations: ['legacy-js-api', 'color-functions', 'import'],
+      },
+    },
   },
   plugins: [uni(), uvtw()],
 });

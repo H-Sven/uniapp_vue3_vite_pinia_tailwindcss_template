@@ -27,7 +27,6 @@
         </view>
       </view>
     </view>
-
     <!-- 快速开始 -->
     <view class="mx-4 mb-6">
       <view class="text-lg font-semibold mb-4 text-center">⚡ 快速开始</view>
