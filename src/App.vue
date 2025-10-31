@@ -18,7 +18,7 @@ onHide(() => {
 });
 </script>
 
-<style>
+<style lang="scss">
 @import "uview-plus/index.scss";
 @import url("styles/tailwind.css");
 
