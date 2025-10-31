@@ -11,12 +11,12 @@
           <view v-if="item.title !== '头像'" class="text-sm">{{
             item.value
           }}</view>
-          <uv-avatar v-else :src="item.value" size="24"></uv-avatar>
-          <!-- <uv-icon
+          <up-avatar v-else :src="item.value" size="24"></up-avatar>
+          <!-- <up-icon
             name="arrow-right"
             size="16"
             color="var(--text-secondary)"
-          ></uv-icon> -->
+          ></up-icon> -->
         </view>
       </view>
     </view>
@@ -31,7 +31,7 @@
         <view class="">{{ item.title }}</view>
         <view class="flex gap-2">
           <view class="text-sm">{{ item.value }}</view>
-          <uv-icon
+          <up-icon
             v-if="item.title !== '软件版本'"
             name="arrow-right"
             size="16"
@@ -46,11 +46,11 @@
       @click="logout"
     >
       <view class="">退出账号</view>
-      <uv-icon
+      <up-icon
         name="arrow-right"
         size="16"
         color="var(--text-red-500)"
-      ></uv-icon>
+      ></up-icon>
     </view>
   </view>
 </template>

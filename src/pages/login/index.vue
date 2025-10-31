@@ -19,10 +19,10 @@
 
     <!-- 登录表单 -->
     <view class="bg-white rounded-3xl p-8 shadow-2xl">
-      <uv-form :model="form" ref="formRef" label-width="0">
+      <up-form :model="form" ref="formRef" label-width="0">
         <!-- 用户名输入框 -->
-        <uv-form-item>
-          <uv-input
+        <up-form-item>
+          <up-input
             v-model="form.username"
             placeholder="请输入用户名"
             prefix-icon="account"
@@ -30,11 +30,11 @@
             clearable
             class="transition-all duration-200"
           />
-        </uv-form-item>
+        </up-form-item>
 
         <!-- 密码输入框 -->
-        <uv-form-item class="mt-4">
-          <uv-input
+        <up-form-item class="mt-4">
+          <up-input
             v-model="form.password"
             type="password"
             placeholder="请输入密码"
@@ -43,10 +43,10 @@
             clearable
             class="transition-all duration-200"
           />
-        </uv-form-item>
+        </up-form-item>
 
         <!-- 登录按钮 -->
-        <uv-button
+        <up-button
           type="primary"
           :loading="isLoading"
           :class="
@@ -59,8 +59,8 @@
           @click="handleLogin"
         >
           {{ isLoading ? "登录中..." : "登录" }}
-        </uv-button>
-      </uv-form>
+        </up-button>
+      </up-form>
 
       <!-- 底部注册 -->
       <view class="text-center mt-12">

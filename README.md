@@ -2,14 +2,14 @@
 
 ## 📖 简介
 
-这是一个基于 **Vue3 + TypeScript + TailwindCSS + uv-ui** 的 UniApp 开发模板，集成了现代化的开发工具和最佳实践，帮助您快速启动跨平台应用开发。
+这是一个基于 **Vue3 + TypeScript + TailwindCSS + uview-plus** 的 UniApp 开发模板，集成了现代化的开发工具和最佳实践，帮助您快速启动跨平台应用开发。
 
 ## ✨ 特性
 
 - 🚀 **Vue3 + Composition API** - 现代化的 Vue.js 开发体验
 - 🔧 **TypeScript** - 完整的类型支持，提升开发效率和代码质量
 - 🎨 **TailwindCSS** - 原子化 CSS 框架，快速构建美观界面
-- 🧩 **uv-ui 组件库** - 丰富的 UniApp 专用组件
+- 🧩 **uview-plus 组件库** - 丰富的 UniApp 专用组件
 - 📦 **Pinia** - 轻量级状态管理
 - ⚡ **Vite** - 快速的构建工具
 - 📱 **多端支持** - H5、小程序、App 一套代码多端运行
@@ -286,7 +286,7 @@ chore: 构建工具、依赖更新等
 - [UniApp](https://uniapp.dcloud.io/) - 跨平台应用开发框架
 - [Vue.js](https://vuejs.org/) - 渐进式 JavaScript 框架
 - [TailwindCSS](https://tailwindcss.com/) - 原子化 CSS 框架
-- [uv-ui](https://www.uvui.cn/) - UniApp UI 组件库
+- [uview-plus](https://uview-plus.jiangruyi.com//) - UniApp UI 组件库
 
 ---
 

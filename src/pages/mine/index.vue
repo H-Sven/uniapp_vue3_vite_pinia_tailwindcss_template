@@ -4,7 +4,7 @@
     <!-- 用户信息区域 -->
     <view class="flex justify-between items-center py-6">
       <view class="flex items-center gap-3">
-        <uv-avatar
+        <up-avatar
           src="/static/logo.png"
           bg-color="#f0f0f0"
           size="48"
