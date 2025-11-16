@@ -9,9 +9,43 @@
         '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
         (coverSupport ? ', viewport-fit=cover' : '') + '" />')
     </script>
-    <title></title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+    <title>量化财经指标</title>
     <!--preload-links-->
     <!--app-context-->
+    <style>
+      /* Desktop width cap: center and limit to 375px on desktop */
+      html.is-desktop body {
+        background-color: #fff;
+      }
+      html.is-desktop body,
+      html.is-desktop #app {
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      /* Desktop: define safe-area variables to center viewport-fixed components */
+      html.is-desktop {
+        /* Center content: left/right offsets equal half of (viewport - 400px) */
+        --window-left: max(0px, calc((100vw - 400px) / 2));
+        --window-right: max(0px, calc((100vw - 400px) / 2));
+      }
+    </style>
+    <script>
+      /**
+       * Detect desktop environment and apply 375px width cap
+       * - Heuristic: UA-based mobile detection, non-mobile treated as desktop
+       * - Adds `is-desktop` class to <html> so CSS can cap width
+       */
+      (() => {
+        const isMobileUA = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        const isDesktop = !isMobileUA
+        if (isDesktop) {
+          document.documentElement.classList.add('is-desktop')
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="app"><!--app-html--></div>

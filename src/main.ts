@@ -5,7 +5,8 @@ import uviewPlus from 'uview-plus'
 
 export function createApp() {
   const app = createSSRApp(App);
-  app.use(Pinia.createPinia());
+  const store = Pinia.createPinia();
+  app.use(store);
   app.use(uviewPlus)
 
   return {

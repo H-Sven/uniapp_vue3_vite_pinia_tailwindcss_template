@@ -1,4 +1,5 @@
 import type { APIResponse } from './request';
+import { GET_CONFIG_ENV } from '@/utils/config';
 
 /**
  * 文件上传请求
@@ -9,17 +10,15 @@ import type { APIResponse } from './request';
 export const commonUploadFile = (
   filePath: string,
 ): Promise<APIResponse<{ url: string }[]>> => {
-  console.log('filePath', filePath);
+  const { API_BASE_URL } = GET_CONFIG_ENV()
   return new Promise((resolve) => {
     uni.uploadFile({
-      url: 'xxxxxxxxxx/api//upload',
+      url: API_BASE_URL + '/upload/image/upload',
       filePath,
-      name: 'files',
-      formData: {
-        group: 'resource',
-      },
+      name: 'file',
+      formData: {},
       header: {
-        Authorization: uni.getStorageSync<string>('token'),
+        token: uni.getStorageSync<string>('token'),
       },
       success: (res) => {
         console.log('res', res);

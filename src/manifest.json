@@ -1,10 +1,41 @@
 {
-  "name": "UniApp模板",
+  "name": "量化财经指标",
   "appid": "",
-  "description": "基于Vue3+TypeScript+TailwindCSS的UniApp开发模板",
+  "description": "量化财经指标",
   "versionName": "1.0.0",
   "versionCode": "100",
   "transformPx": false,
+  "h5": {
+    "title": "量化财经指标",
+    "favicon": "/static/favicon.ico",
+    "router": {
+      "mode": "history", // 开启 History 模式
+      "base": "/" // 基础路径（根据部署环境调整，如子目录部署需填写子路径）
+    },
+    "pwa": {
+      "manifestOptions": {
+        "name": "量化财经指标", // 应用全称
+        "short_name": "量化财经指标", // 桌面显示的短名称
+        "display": "standalone", // 独立窗口模式（无浏览器导航栏）
+        "background_color": "#ffffff", // 启动页背景色
+        "theme_color": "#42b983", // 主题色（影响状态栏等）
+        "icons": [
+          {
+            "src": "/static/favicon.ico", // 图标路径（放 static 目录下）
+            "sizes": "192x192",
+            "type": "image/png"
+          },
+          {
+            "src": "/static/favicon.ico",
+            "sizes": "512x512",
+            "type": "image/png"
+          }
+        ]
+      },
+      "serviceWorker": {
+        "path": "/src/service-worker.js" // Service Worker 脚本路径
+      }
+  },
   /* 5+App特有相关 */
   "app-plus": {
     "usingComponents": true,

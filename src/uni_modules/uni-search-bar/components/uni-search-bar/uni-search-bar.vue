@@ -85,7 +85,7 @@
 			},
 			bgColor: {
 				type: String,
-				default: "#F8F8F8"
+				default: "#f5f5f5"
 			},
 			textColor: {
 				type: String,

@@ -3,8 +3,8 @@
  * @description 基于uni.request封装的HTTP请求工具
  */
 
-import { API_BASE_URL, RESPONSE_CODE, APP_CONFIG } from '@/utils/config';
-import type { ResponseData } from '@/types';
+import { RESPONSE_CODE, APP_CONFIG,GET_CONFIG_ENV } from '@/utils/config';
+import { useUserStore } from '@/stores/user'
 
 /**
  * 请求配置接口
@@ -21,6 +21,10 @@ interface RequestConfig {
  * 请求拦截器
  */
 function requestInterceptor(config: RequestConfig) {
+  const { API_BASE_URL } = GET_CONFIG_ENV()
+  console.log('--------------↓↓↓↓↓---------------------')
+  console.log(API_BASE_URL)
+  console.log('--------------↑↑↑↑↑---------------------')
   // 添加基础URL
   if (!config.url.startsWith('http')) {
     config.url = API_BASE_URL + config.url;
@@ -35,7 +39,7 @@ function requestInterceptor(config: RequestConfig) {
   // 添加token
   const token = uni.getStorageSync(APP_CONFIG.TOKEN_KEY);
   if (token) {
-    config.header.Authorization = `Bearer ${token}`;
+    config.header.token = `${token}`;
   }
 
   return config;
@@ -59,31 +63,28 @@ function responseInterceptor<T>(
     return Promise.reject(new Error(errorMessage));
   }
 
-  const responseData = data as ResponseData<T>;
+  const userStore = useUserStore()
+  const responseData = data as any
 
   // 业务状态码检查
-  if (responseData.code !== RESPONSE_CODE.SUCCESS) {
+  if (responseData.code !== 1) {
     const errorMessage = responseData.message || '请求失败';
 
     // 特殊状态码处理
-    if (responseData.code === RESPONSE_CODE.UNAUTHORIZED) {
-      // 未授权，清除token并跳转登录
-      uni.removeStorageSync('token');
-      uni.removeStorageSync('userInfo');
-      uni.reLaunch({
-        url: '/pages/login/index',
-      });
+    if (responseData.code === 3) {
+      userStore.logout(true)
+      // uni.reLaunch({
+      //   url: '/pages/login/index',
+      // });
     } else {
       uni.showToast({
         title: errorMessage,
         icon: 'none',
       });
     }
-
-    return Promise.reject(new Error(errorMessage));
   }
 
-  return Promise.resolve(responseData.data);
+  return Promise.resolve(responseData);
 }
 
 /**

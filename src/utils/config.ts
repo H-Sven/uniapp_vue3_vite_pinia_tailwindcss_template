@@ -2,8 +2,20 @@
  * 配置文件
  */
 
-// API基础URL
-export const API_BASE_URL = 'https://api.example.com/v1';
+export const GET_CONFIG_ENV = () => {
+  let API_BASE_URL = ''
+  switch (process.env.NODE_ENV) {
+    case 'development':
+      API_BASE_URL = 'https://test-api.zsyzixun.cn/web_api'
+      break
+    default:
+      API_BASE_URL = 'https://test-api.zsyzixun.cn/web_api'
+      break
+  }
+  return {
+    API_BASE_URL
+  }
+}
 
 // 响应状态码
 export const RESPONSE_CODE = {

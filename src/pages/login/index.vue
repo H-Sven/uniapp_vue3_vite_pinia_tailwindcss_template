@@ -1,50 +1,51 @@
 <template>
-  <view
-    class="min-h-full bg-gradient-to-br from-blue-500 to-purple-600 p-4 flex flex-col"
-  >
-    <!-- 头部Logo区域 -->
-    <view class="text-center mt-10 mb-8">
-      <image
-        class="w-24 h-24 mx-auto mb-6 rounded-full"
-        src="/static/logo.png"
-        mode="aspectFit"
-      />
-      <view style="font-size: 48rpx" class="font-bold text-white mb-2">
-        UniApp 模板
+  <PageWrapper title="登录">
+    <view
+      class="h-full bg-[#f5f5f5] p-4 flex flex-col"
+    >
+      <!-- 头部Logo区域 -->
+      <view class="text-center mt-28 mb-8">
+        <view style="font-size: 48rpx" class="font-bold text-black mb-2">
+          欢迎登录
+        </view>
       </view>
-      <view style="font-size: 28rpx" class="text-white opacity-80">
-        欢迎使用开发模板
-      </view>
-    </view>
 
-    <!-- 登录表单 -->
-    <view class="bg-white rounded-3xl p-8 shadow-2xl">
-      <up-form :model="form" ref="formRef" label-width="0">
-        <!-- 用户名输入框 -->
-        <up-form-item>
+      <!-- 登录表单 -->
+      <view class="bg-white rounded-3xl p-8 shadow-2xl">
+        <!-- 手机号输入框 -->
           <up-input
-            v-model="form.username"
-            placeholder="请输入用户名"
-            prefix-icon="account"
+            v-model="mobile"
+            placeholder="请输入手机号"
             border="surround"
-            clearable
+            type="number"
+            maxlength="11"
             class="transition-all duration-200"
           />
-        </up-form-item>
 
-        <!-- 密码输入框 -->
-        <up-form-item class="mt-4">
-          <up-input
-            v-model="form.password"
-            type="password"
-            placeholder="请输入密码"
-            prefix-icon="lock"
-            border="surround"
-            clearable
-            class="transition-all duration-200"
-          />
-        </up-form-item>
-
+        <!-- 验证码输入框 -->
+        <up-input
+          v-model="code"
+          type="number"
+          placeholder="请输入验证码"
+          border="surround"
+          maxlength="6"
+          class="transition-all duration-200 mt-6"
+        >
+        <template #suffix>
+          <up-code
+            ref="uCodeRef"
+            @change="codeChange"
+            seconds="60"
+            changeText="X秒重新获取"
+          ></up-code>
+          <up-button
+            @tap="getCode"
+            :text="tips"
+            type="success"
+            size="mini"
+          ></up-button>
+        </template>
+        </up-input>
         <!-- 登录按钮 -->
         <up-button
           type="primary"
@@ -60,20 +61,9 @@
         >
           {{ isLoading ? "登录中..." : "登录" }}
         </up-button>
-      </up-form>
-
-      <!-- 底部注册 -->
-      <view class="text-center mt-12">
-        <text class="text-sm text-gray-600">还没有账号？</text>
-        <text
-          class="text-sm text-blue-500 ml-2 hover:text-blue-600 transition-colors cursor-pointer"
-          @click="handleRegister"
-        >
-          立即注册
-        </text>
       </view>
     </view>
-  </view>
+  </PageWrapper>
 </template>
 
 <script setup lang="ts">
@@ -84,13 +74,73 @@
 import { ref } from "vue";
 import { onLoad } from "@dcloudio/uni-app";
 import { twMerge } from "tailwind-merge";
-import { login, type LoginParams } from "@/api/user";
+import { getCodeApi } from "@/api/user";
+import { isValidPhone } from '@/utils/index'
+import { useUserStore } from '@/stores/user'
+import PageWrapper from '@/components/PageWrapper/index.vue'
 
-// 表单数据
-const form = ref<LoginParams>({
-  username: "",
-  password: "",
-});
+
+const userStore = useUserStore()
+
+const mobile = ref('')
+const code = ref('')
+
+const tips = ref('');
+const uCodeRef = ref(null);
+
+const codeChange = (text) => {
+  tips.value = text;
+};
+
+// 检查手机号是否已注册
+const isFirstLogin = ref(false)
+const checkMobileFirstLogin = async () => {
+  try {
+     isFirstLogin.value = false
+    const res = await userStore.checkMobile({
+      mobile: mobile.value
+    })
+    isFirstLogin.value = !res
+  } catch (error) {
+    isFirstLogin.value = false
+  }
+}
+
+const getCode = async () => {
+  try {
+    if(!isValidPhone(mobile.value)){
+    uni.showToast({
+      title: "请输入正确的手机号",
+      icon: "none",
+    });
+    return false
+  }
+  if (uCodeRef.value?.canGetCode) {
+    // 模拟向后端请求验证码
+    uni.showLoading({
+      title: '正在获取验证码',
+    });
+    const res = await getCodeApi({ mobile: mobile.value })
+    if(res.code === 1) {
+      uni.hideLoading();
+      uni.showToast({
+        title: "验证码已发送",
+        icon: "none",
+      });
+      uCodeRef.value?.start();
+    }
+    checkMobileFirstLogin()
+  } else {
+    uni.showToast({
+      title: "倒计时结束后再发送",
+      icon: "none",
+    });
+  }
+  } catch (error) {
+    isFirstLogin.value = false
+  }
+};
+
 
 // 加载状态
 const isLoading = ref(false);
@@ -111,45 +161,46 @@ onLoad((options: any) => {
  * 处理登录
  */
 const handleLogin = async () => {
-  if (!form.value.username) {
+  if (!isValidPhone(mobile.value)) {
     uni.showToast({
-      title: "请输入用户名",
+      title: "请输入正确的手机号",
       icon: "none",
     });
     return;
   }
 
-  if (!form.value.password) {
+  if (code.value.length !== 6) {
     uni.showToast({
-      title: "请输入密码",
+      title: "请输入6位验证码",
       icon: "none",
     });
     return;
   }
 
   try {
+    if(isLoading.value) {
+      return false
+    }
     isLoading.value = true;
-
-    // 这里是示例，实际开发时取消注释并使用真实API
-    // const response = await login(form.value);
-    // uni.setStorageSync("token", response.token);
-    // uni.setStorageSync("userInfo", response.userInfo);
-
-    // 模拟登录成功
+    await userStore.login({
+      mobile: mobile.value,
+      code: code.value
+    });
     uni.showToast({
-      title: "登录成功",
+      title: isFirstLogin.value ? "注册成功" : "登录成功",
       icon: "success",
     });
-
     // 跳转页面
     setTimeout(() => {
       const targetUrl = redirectUrl.value || "/pages/index/index";
-      uni.reLaunch({ url: targetUrl });
-    }, 1500);
+      const editUserUrl = "/pages/editUser/index"
+      uni.reLaunch({ url: isFirstLogin.value ? editUserUrl : targetUrl });
+    }, 1000);
+
   } catch (error) {
     console.error("登录失败:", error);
     uni.showToast({
-      title: "登录失败，请检查用户名和密码",
+      title: `登录失败:${error.message}`,
       icon: "none",
     });
   } finally {
@@ -157,13 +208,4 @@ const handleLogin = async () => {
   }
 };
 
-/**
- * 跳转注册
- */
-const handleRegister = () => {
-  uni.showToast({
-    title: "注册功能待开发",
-    icon: "none",
-  });
-};
 </script>

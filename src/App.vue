@@ -4,6 +4,9 @@
  * @description UniApp应用的根组件
  */
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 onLaunch(() => {
   console.log("App Launch");
@@ -11,6 +14,7 @@ onLaunch(() => {
 
 onShow(() => {
   console.log("App Show");
+  userStore.getUserInfo()
 });
 
 onHide(() => {
@@ -21,6 +25,10 @@ onHide(() => {
 <style lang="scss">
 @import "uview-plus/index.scss";
 @import url("styles/tailwind.css");
+
+#app {
+  overflow: hidden;
+}
 
 /* 全局样式 */
 :root {
@@ -34,7 +42,7 @@ body {
 
 body,
 uni-page-body {
-  background-color: #f8f8f8;
+  background-color: #f5f5f5;
   color: #333;
   height: 100%;
 }
